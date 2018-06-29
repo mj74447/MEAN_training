@@ -1,0 +1,28 @@
+> db.bank_1.insert({accNumber:6,balance:6000,customerDetails:{customerId:6,customerName:"puru",street:"pandastreet",city:"pune",loa
+nAmount:1000,DepositAmount:700},branchDetails:{branchName:"thola",branchCity:"pune",assets:2900000}})
+WriteResult({ "nInserted" : 1 })
+> db.bank_1.insert({accNumber:7,balance:9000,customerDetails:{customerId:7,customerName:"puru tola",street:"plaona street",city:"pu
+ne",loanAmount:9000,DepositAmount:7000},branchDetails:{branchName:"thola",branchCity:"pune",assets:2900000}})
+-----------------------------------------------------------------------------------------------------------
+1)primary key unique values :-
+primary key->accNumber
+2)db.bank_1.createIndex( { "accNumber": 1 }, { unique: true } )
+3)db.bank_1.find({"customerDetails.loanAmount": { $gt: 0 }},{"customerDetails.customerName":1,"customerDetails.city":1,"_id":0}).pr
+etty()
+4)db.bank_1.find({$and:[{"customerDetails.loanAmount": { $gt: 0 }}, {"customerDetails.city":"Chennai"}
+]},{"customerDetails.customerName":1,"_id":0}).pretty()
+5)db.bank_1.find({},{"branchDetails.branchName":1,"branchDetails.branchCity":1,"branchDetails.assets":1,_id:0}). sort({"branchDetai
+ls.assets":-1}).limit(1)
+6)b.bank_1.find({$and:[{"customerDetails.loanAmount": { $gt: 0 }}, {"branchDetails.branchCity":"pune"}
+]},{"customerDetails.customerName":1,"customerDetails.city":1,"_id":0}).pretty()
+7)db.bank_1.find(( { balance: { $gt: 700, $lt: 900 } } )).pretty().count()
+8)db.bank_1.find({$and:[{"customerDetails.loanAmount": { $gt: 0 }},{"customerDetails.DepositAmount": { $gt: 0 }}, {"branchDetails.branchCity":"pune"}
+]},{"customerDetails.customerName":1,"_id":0}).pretty()
+9) db.bank_1.find({$where:"this.customerDetails.loanAmount >this.balance"}).pretty()
+10)db.bank_1.find({"customerDetails.street": {$regex: "Hill$"}})
+11)db.bank_1.find({$and:[{"customerDetails.loanAmount": 0 }, {"branchDetails.branchCity":"pune"}
+]},{"customerDetails.customerName":1,"_id":0}).pretty()
+12)
+13)db.bank_1.aggregate([{$group:{_id:"$branchDetails.branchName",average:{$avg:"$balance"}}},{$sort:{average:-1}},{$limit:1}])
+14) db.bank_1.aggregate([{$group:{_id:"$branchDetails.branchName",totalcount:{$sum :1}}}])
+15)db.bank_1.update({"customerDetails.customerName":"Ram"},{$inc:{balance:20000}})
